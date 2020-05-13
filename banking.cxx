@@ -13,6 +13,7 @@ using std::ios;
 
     void account_query::read_data()
     {
+        m_record_no+=1;
         cout<<"\nEnter Account Number: ";
         cin>>m_account_number;
         cout<<"Enter First Name: ";
@@ -26,6 +27,7 @@ using std::ios;
 
     void account_query::show_data()
     {
+        cout<<"Record No:"<<m_record_no<<endl;
         cout<<"Account Number: "<<m_account_number<<endl;
         cout<<"First Name: "<<m_firstName<<endl;
         cout<<"Last Name: "<<m_lastName<<endl;
