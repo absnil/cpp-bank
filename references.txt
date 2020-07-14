@@ -1,0 +1,5 @@
+https://www.codewithc.com/banking-record-system-project-c/
+https://developers.google.com/protocol-buffers/docs/cpptutorial
+https://blog.conan.io/2019/03/06/Serializing-your-data-with-Protobuf.html
+https://github.com/protocolbuffers/protobuf/blob/master/src/README.md
+https://www.codeproject.com/Articles/1260597/Protocol-Buffer-A-Beginners-Walkthrough

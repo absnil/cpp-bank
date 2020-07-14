@@ -1,17 +1,27 @@
-class account_query
+#include<iostream>
+#include <fstream>
+#include <string>
+#include "account_system.pb.h"
+#include <set>
+#include <map>
+
+class AccountManager
 {
-private:
-    int m_record_no = 0;
-    char m_account_number[20];
-    char m_firstName[10];
-    char m_lastName[10];
-    float m_total_Balance;
-public:
-    void read_data();
-    void show_data();
-    void write_rec();
-    void read_rec();
-    void search_rec();
-    void edit_rec();
-    void delete_rec();
+  public:
+    AccountManager(char*&);
+    ~AccountManager(){};
+    void createAccount();
+    void displayAccount(int& acc_number);
+    void deleteAccount();
+    void checkBalance();
+    //overload for account number and last name
+    //void modifyAccount();
+  private: 
+    general::Bank bank;
+    int current_accounts;
+    std::set<int> activeAccountNumbers;
+    std::map<int, int> accNumberToIndexMapping;
+    char* file_name;
+    int generate_account_number() { return current_accounts+1; };
+    
 };

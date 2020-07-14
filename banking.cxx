@@ -1,156 +1,93 @@
-#include<iostream>
-#include<fstream>
-#include<cstdlib>
+
 #include"banking.h"
 
-using std::cout;
-using std::cin;
-using std::endl;
-using std::fstream;
-using std::ofstream;
-using std::ifstream;
-using std::ios;
 
-    void account_query::read_data()
-    {
-        m_record_no+=1;
-        cout<<"\nEnter Account Number: ";
-        cin>>m_account_number;
-        cout<<"Enter First Name: ";
-        cin>>m_firstName;
-        cout<<"Enter Last Name: ";
-        cin>>m_lastName;
-        cout<<"Enter Balance: ";
-        cin>>m_total_Balance;
-        cout<<endl;
+
+AccountManager::AccountManager(char*& inputx) {
+   
+   std::fstream input(inputx, std::ios::in | std::ios::binary);
+   if (input){
+        bank.ParseFromIstream(&input);
+        current_accounts = bank.totalaccounts();
+        for(int i =0; i < bank.accounts_size();i++){
+
+            activeAccountNumbers.insert(bank.accounts(i).account_number());
+            accNumberToIndexMapping.insert(std::make_pair(bank.accounts(i).account_number(),i));
+        }
+    }
+    file_name = inputx;
+}
+
+
+void AccountManager::createAccount() {
+    
+    std::string excess;
+    getline(std::cin,excess);
+    general::Account* account = bank.add_accounts();
+    std::cout<<"Enter First Name"<<std::endl;
+    getline(std::cin,*account->mutable_first_name());
+    std::cout<<"Enter Last Name"<<std::endl;
+    getline(std::cin,*account->mutable_last_name());
+    account->set_account_number(generate_account_number());
+    account->set_balance(100);
+
+    std::cout << "Is this a savings, checking, or loan account? ";
+    std::string type;
+    getline(std::cin, type);
+    if (type == "savings") {
+      account->set_type(general::Account::Savings);
+    } else if (type == "loan") {
+      account->set_type(general::Account::Loan);
+    } else if (type == "checking") {
+      account->set_type(general::Account::Checking);
+    } else {
+      std::cout << "Unknown account type.  Using default." << std::endl;
     }
 
-    void account_query::show_data()
-    {
-        cout<<"Record No:"<<m_record_no<<endl;
-        cout<<"Account Number: "<<m_account_number<<endl;
-        cout<<"First Name: "<<m_firstName<<endl;
-        cout<<"Last Name: "<<m_lastName<<endl;
-        cout<<"Current Balance: Rs.  "<<m_total_Balance<<endl;
-        cout<<"-------------------------------"<<endl;
+    std::fstream output(file_name, std::ios::out | std::ios::trunc | std::ios::binary);
+    if (!bank.SerializeToOstream(&output)) {
+        std::cerr << "Failed to write address book." << std::endl;
+    }
+}
+
+
+
+
+void AccountManager::displayAccount(int &account_number) {
+    std::string excess;
+    getline(std::cin,excess);
+    if (accNumberToIndexMapping.find(account_number)!=accNumberToIndexMapping.end()) {
+        int index_of_account = accNumberToIndexMapping[account_number];
+        cout<<"Name: "<<bank.account(i)
     }
 
-    void account_query::write_rec()
-    {
-        ofstream outfile;
-        outfile.open("record.txt", ios::binary|ios::app);
-        read_data();
-        outfile.write(reinterpret_cast<char *>(this), sizeof(*this));
-        outfile.close();
-    }
+    std::fstream output(file_name, std::ios::out | std::ios::trunc | std::ios::binary);
+    if (!bank.SerializeToOstream(&output)) {
+        std::cerr << "Failed to write address book." << std::endl;
+    }       
 
-    void account_query::read_rec()
-    {
-        ifstream infile;
-        infile.open("record.txt", ios::binary);
-        if(infile)
-        {
+
+
+}
+
+// void AccountManager::writeRec() {
+        
+// }
+
+// void AccountManager::readRecord() {
+        
+// }
+
+// void AccountManager::searchRecord() {
+        
+// }
+
+// void AccountManager::editRecord() {
             
-            cout<<"\n****Data from file****"<<endl;
-            while(!infile.eof())
-            {
-                if(infile.read(reinterpret_cast<char*>(this), sizeof(*this)))
-                {
-                    show_data();
-                }
-            }
-            infile.close();
-            return;
-        }
-        
-        cout<<"Error in Opening! File Not Found!!"<<endl;
-        return;
-    }
+// }
 
-    void account_query::search_rec()
-    {
-        int n;
-        ifstream infile;
-        infile.open("record.txt", ios::binary);
-        if(infile)
-        {    
+// void AccountManager::deleteRecord()  {
         
-            infile.seekg(0,ios::end);
-            int count = infile.tellg()/sizeof(*this);
-            cout<<"\n There are "<<count<<" record in the file";
-            cout<<"\n Enter Record Number to Search: ";
-            cin>>n;
-            infile.seekg((n-1)*sizeof(*this));
-            infile.read(reinterpret_cast<char*>(this), sizeof(*this));
-            show_data();
-            return;
-        }
-
-        cout<<"\nError in opening! File Not Found!!"<<endl;
-    }
-
-    void account_query::edit_rec()
-    {
-        int n;
-        fstream iofile;
-        iofile.open("record.txt", ios::in|ios::binary);
-        if(iofile)
-        {
-            
         
-            iofile.seekg(0, ios::end);
-            int count = iofile.tellg()/sizeof(*this);
-            cout<<"\n There are "<<count<<" record in the file";
-            cout<<"\n Enter Record Number to edit: ";
-            cin>>n;
-            iofile.seekg((n-1)*sizeof(*this));
-            iofile.read(reinterpret_cast<char*>(this), sizeof(*this));
-            cout<<"Record "<<n<<" has following data"<<endl;
-            show_data();
-            iofile.close();
-            iofile.open("record.txt", ios::out|ios::in|ios::binary);
-            iofile.seekp((n-1)*sizeof(*this));
-            cout<<"\nEnter data to Modify "<<endl;
-            read_data();
-            iofile.write(reinterpret_cast<char*>(this), sizeof(*this));
-            return;
-        }
-
-        cout<<"\nError in opening! File Not Found!!"<<endl;
-            
-    }
-
-    void account_query::delete_rec()
-    {
-        int n;
-        ifstream infile;
-        infile.open("record.txt", ios::binary);
-        if(infile)
-        {
-            
-        
-        infile.seekg(0,ios::end);
-        int count = infile.tellg()/sizeof(*this);
-        cout<<"\n There are "<<count<<" record in the file";
-        cout<<"\n Enter Record Number to Delete: ";
-        cin>>n;
-        fstream tmpfile;
-        tmpfile.open("tmpfile.txt", ios::out|ios::binary);
-        infile.seekg(0);
-        for(int i=0; i<count; i++)
-        {
-            infile.read(reinterpret_cast<char*>(this),sizeof(*this));
-            if(i==(n-1))
-                continue;
-            tmpfile.write(reinterpret_cast<char*>(this), sizeof(*this));
-        }
-        infile.close();
-        tmpfile.close();
-        remove("record.txt");
-        rename("tmpfile.txt", "record.txt");
-        return;
-        }
-        cout<<"\nError in opening! File Not Found!!"<<endl;
-        
-    }
+// }
 

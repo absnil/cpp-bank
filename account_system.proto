@@ -1,0 +1,24 @@
+syntax  =  "proto3";
+
+package general;
+
+message Account {
+   string first_name = 1;
+   string last_name = 2;
+   int32 account_number = 3;
+
+  enum AccountType {
+    Savings = 0;
+    Checking = 1;
+    Loan = 2;
+  }
+
+ AccountType type = 4;
+ float balance = 5;
+
+}
+
+message Bank {
+	repeated Account accounts = 1;
+	int32 totalAccounts = 2;
+}
