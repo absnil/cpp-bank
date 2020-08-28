@@ -12,10 +12,7 @@ class AccountManager
     ~AccountManager(){};
     void createAccount();
     void displayAccount(int& acc_number);
-    void deleteAccount();
-    void checkBalance();
-    //overload for account number and last name
-    //void modifyAccount();
+    
   private: 
     general::Bank bank;
     int current_accounts;
