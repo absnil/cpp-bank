@@ -100,3 +100,35 @@ void AccountManager::deleteAccount(int& account_number) {
     std::cout<< "*********        Account Does Not Exist        *************" << std::endl;
   }
 }
+
+void AccountManager::updateBalance(int& acc_number,float& diff) {
+  std::string excess;
+  getline(std::cin,excess);
+  if (accNumberToIndexMapping.find(acc_number) != accNumberToIndexMapping.end()) {
+    
+    int index_of_account = accNumberToIndexMapping[acc_number];
+    int curr_balance = bank.mutable_accounts(index_of_account)->balance();
+    curr_balance = curr_balance + diff;
+    bank.mutable_accounts(index_of_account)->set_balance(curr_balance);
+    std::cout << "\n***************          Account Closed Successfully          *********************" << std::endl;
+    std::fstream output(file_name, std::ios::out | std::ios::trunc | std::ios::binary);
+    if (!bank.SerializeToOstream(&output)) {
+        std::cerr << "\n*************************        Houston! We have a problem          ***************************" << std::endl;
+    }
+  }
+}
+
+void AccountManager::fetchAccountBalance(int& acc_number) {
+  std::string excess;
+    getline(std::cin,excess);
+    if (accNumberToIndexMapping.find(acc_number)!=accNumberToIndexMapping.end()) {
+        int index_of_account = accNumberToIndexMapping[acc_number];
+        std::cout << "\n********************          Account Number: " << acc_number << "             ********************" << std::endl;
+        std::cout << "\n********************          Balance " << bank.accounts(index_of_account).balance() << "                ********************" << std::endl;
+        std::cout <<" Hit Enter to continue " << std::endl;
+        std::cin.get();
+    }
+    else {
+        std::cout << "\n****************          Enter Correct Account Number           ********************" << std::endl;
+    } 
+}
