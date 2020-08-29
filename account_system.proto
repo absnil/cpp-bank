@@ -15,7 +15,7 @@ message Account {
 
  AccountType type = 4;
  float balance = 5;
-
+ bool active = 6;
 }
 
 message Bank {

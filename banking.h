@@ -12,6 +12,7 @@ class AccountManager
     ~AccountManager(){};
     void createAccount();
     void displayAccount(int& acc_number);
+    void deleteAccount(int& acc_number);
     
   private: 
     general::Bank bank;

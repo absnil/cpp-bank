@@ -26,7 +26,8 @@ int main(int argc, char* argv[]) {
     cout<<"Select one option:- ";
     cout<<"\n\t1-->Create Account";
     cout<<"\n\t2-->Display Account";
-    cout<<"\n\t3-->Quit";
+    cout<<"\n\t3-->Delete Account";
+    cout<<"\n\t4-->Quit";
     cout<<"\nEnter your choice: ";
     cin>>choice;
      switch(choice) {
@@ -46,6 +47,14 @@ int main(int argc, char* argv[]) {
         break;
       }
       case 3:  {
+        int acc_number;            
+        AccountManager acc_manager(argv[1]);
+        cout<<"\nEnter Account Number: ";
+        cin>>acc_number;
+        acc_manager.deleteAccount(acc_number);
+        break;
+      }
+      case 4:  {
         exit(0);
         break;
       }
