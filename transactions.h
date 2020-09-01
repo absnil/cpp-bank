@@ -14,14 +14,7 @@ class TransactionManager {
         void checkBalance(AccountManager& am);
     
     private:
-        /*
-        int generateTransactionId() {
-
-        }
-
-        int total_transactions;
-        std::set<int> transaction_ids;
-        std::map<int, set<int>> transaction history;
-        */
+        // TODO:
+        // create system of tracking transactions with id
 
 };

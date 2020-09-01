@@ -110,8 +110,9 @@ void AccountManager::updateBalance(int& acc_number,float& diff) {
     int curr_balance = bank.mutable_accounts(index_of_account)->balance();
     curr_balance = curr_balance + diff;
     bank.mutable_accounts(index_of_account)->set_balance(curr_balance);
-    std::cout << "\n***************          Account Closed Successfully          *********************" << std::endl;
+    std::cout << "\n***************          Transaction Completed Successfully          *********************" << std::endl;
     std::fstream output(file_name, std::ios::out | std::ios::trunc | std::ios::binary);
+    
     if (!bank.SerializeToOstream(&output)) {
         std::cerr << "\n*************************        Houston! We have a problem          ***************************" << std::endl;
     }
