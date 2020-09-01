@@ -13,7 +13,9 @@ using std::ifstream;
 using std::ios;
 
 void mainMenu(char*&);
-void manageTransactions(AccountManager&);
+void manageTransactions(AccountManager&, char*&);
+
+char* fileName;
 
 int main(int argc, char* argv[]) {
 
@@ -66,7 +68,7 @@ void mainMenu(char*& file_name) {
       }
       case 4: {
         AccountManager acc_manager(file_name);
-        manageTransactions(acc_manager);
+        manageTransactions(acc_manager,file_name);
 
       }
       case 5:  {
@@ -80,7 +82,7 @@ void mainMenu(char*& file_name) {
   }
 }
 
-void manageTransactions(AccountManager& am) {
+void manageTransactions(AccountManager& am, char*& file_name) {
   int choice;
   cout<<"*************  Transaction Menu   *************"<<endl;
   while(true) {
@@ -88,7 +90,7 @@ void manageTransactions(AccountManager& am) {
     cout<<"\n\t1-->Make Withdrawal";
     cout<<"\n\t2-->Make Deposit";
     cout<<"\n\t3-->Check Balance";
-    cout<<"\n\t5-->Back";
+    cout<<"\n\t4-->Back";
     cout<<"\nEnter your choice: ";
     cin>>choice;
      switch(choice) {
@@ -112,6 +114,7 @@ void manageTransactions(AccountManager& am) {
       }
       
       case 4:  {
+        mainMenu(file_name);
         break;
       }
       

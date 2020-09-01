@@ -129,6 +129,6 @@ void AccountManager::fetchAccountBalance(int& acc_number) {
         std::cin.get();
     }
     else {
-        std::cout << "\n****************          Enter Correct Account Number           ********************" << std::endl;
+        std::cout << "\n****************          Enter Correct Account Number           ********************\n\n\n" << std::endl;
     } 
 }
