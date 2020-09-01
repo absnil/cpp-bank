@@ -5,6 +5,7 @@
 #include <set>
 #include <map>
 
+
 class AccountManager
 {
   public:
@@ -12,7 +13,10 @@ class AccountManager
     ~AccountManager(){};
     void createAccount();
     void displayAccount(int& acc_number);
-    
+    void deleteAccount(int& acc_number);
+    void updateBalance(int& acc_number, float& diff);
+    void fetchAccountBalance(int& acc_number);
+
   private: 
     general::Bank bank;
     int current_accounts;
