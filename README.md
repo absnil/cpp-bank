@@ -10,4 +10,4 @@ To run locally:
 2. generate protobuf files using command:
     protoc --cpp_out=. account_system.proto
 3. create object file using command: 
-    g++ -o bank_app main.cxx banking.h banking.cxx account_system.pb.cc `pkg-config --cflags --libs protobuf`
+    g++ -o bank_app main.cxx banking.h banking.cxx account_system.pb.cc transactions.h transactions.cxx `pkg-config --cflags --libs protobuf`
